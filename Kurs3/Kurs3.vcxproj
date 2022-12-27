@@ -131,8 +131,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="Book_BookItem_BookList.h" />
-    <ClInclude Include="Kurs3.h" />
+    <ClInclude Include="BookList.h" />
+    <ClInclude Include="Book.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

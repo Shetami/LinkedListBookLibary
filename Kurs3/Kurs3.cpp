@@ -1,4 +1,4 @@
-﻿#include "App.h"
+﻿#include "BookList.h"
 
 int main()
 {
@@ -8,26 +8,30 @@ int main()
     setlocale(LC_ALL, "Russian");
     ConsoleCursorVisible(false, 100);
     int active_menu = 0;
-    BookItem* _head;
+
     BookList* booklist = new BookList;
+    BookItem* _head;
+    BookItem* newitem;
+    int id = 0;
 
     string Menu[] = {
       "Выход",
-      "Добавить книги в начало",
-      "Добавить книги по индексу",
-      "Добавить книги в конец",
+      "Очистить список",
+      "Добавить книгу в начало списка",
+      "Добавить книгу в конец списка",
+      "Добавить книгу по индексу",
       "Вывести список книг",
-      "Поиск по автору",
-      "Поиск по названию",
-      "Сортировать по названию книги",
-      "Сортировать по автору",
-      "Удалить книгу из начала",
+      "Вывести книгу по индексу",
+      "Редактировать выбранную книгу (по индексу)",
+      "Удалить книгу из начала списка",
+      "Удалить книгу из конца списка",
       "Удалить книгу по индексу",
-      "Удалить книгу из конца",
-      "Вывести запись по ID",
-      "Вывести список в документ",
-      "Считать данные из документа",
-      "Редактировать выбранную книгу"
+      "Поиск книги по названию",
+      "Поиск книги по автору",
+      "Сортировать книги по названию (в алфавитном порядке)",
+      "Сортировать книги по автору (в алфавитном порядке)",
+      "Вывести список в файл",
+      "Считать список из файла",
 
     };
     char ch;
@@ -60,93 +64,152 @@ int main()
                 clearList(booklist);
                 delete booklist;
                 exit(0);
+                //break;
             case 1:
                 system("CLS");
-                addMultipleBookHead(booklist);
+                clearList(booklist);
+                cout << "Список был очищен" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 2:
                 system("CLS");
-                addItemID(booklist);
+                newitem = new BookItem;
+                newitem->data = new Book;
+                inputBook(newitem->data);
+                addItemHead(booklist, newitem);
+                cout << "Элемент был добавлен в список" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 3:
                 system("CLS");
-                addMultipleBook(booklist);
+                newitem = new BookItem;
+                newitem->data = new Book;
+                inputBook(newitem->data);
+                addItemTail(booklist, newitem);
+                cout << "Элемент был добавлен в список" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 4:
                 system("CLS");
+                id = inputInt("Введите ID, на месте которого нужно вставить новую запись: ");
+                newitem = new BookItem;
+                newitem->data = new Book;
+                inputBook(newitem->data);
+                addItemByID(booklist, newitem, id);
+                cout << "Элемент был добавлен в список" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
+                system("CLS");
+                break;
+            case 5:
+                system("CLS");
                 outList(booklist);
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
 
-            case 5:
+            case 6:
                 system("CLS");
-                searchAuthor(booklist);
+                id = inputInt("Введите ID элемента списка: ");
+                outItemByID(booklist, id);
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
              
-            case 6:
+            case 7:
                 system("CLS");
-                outputsearchBook(booklist);
+                id = inputInt("Введите ID элемента списка для редактирования: ");
+                updateItemByID(booklist, id);
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             
-            case 7:
-                system("CLS");
-                _head = sort(booklist->head);
-                booklist->head = _head;
-                system("CLS");
-                break;
             case 8:
                 system("CLS");
-                _head = sortAuthor(booklist->head);
-                booklist->head = _head;
+                deleteItemFront(booklist);
+                cout << "Элемент был удален из списка" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 9:
                 system("CLS");
-                deleteFront(booklist);
+                deleteItemTail(booklist);
+                cout << "Элемент был удален из списка" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 10:
                 system("CLS");
-                deleteID(booklist);
+                id = inputInt("Введите ID элемента списка, который нужно удалить: ");
+                deleteItemByID(booklist, id);
+                cout << "Элемент был удален из списка" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 11:
                 system("CLS");
-                deleteTail(booklist);
+                searchBookByTitle(booklist);
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 12:
                 system("CLS");
-                outOneItemByID(booklist);
+                searchBookByAuthor(booklist);
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 13:
                 system("CLS");
-                outXLS(booklist);
+                _head = sortListByTitle(booklist->head);
+                booklist->head = _head;
+                cout << "Список был отсортирован" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 14:
                 system("CLS");
-                readFile(booklist);
+                _head = sortListByAuthor(booklist->head);
+                booklist->head = _head;
+                cout << "Список был отсортирован" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             case 15:
                 system("CLS");
-                changeBook(booklist);
+                outListFile(booklist);
+                cout << "Список был записан в файл" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
+                system("CLS");
+                break;
+            case 16:
+                system("CLS");
+                clearList(booklist);
+                readListFile(booklist);
+                cout << "Список был прочитан из файла" << endl;
+                cout << "Для продолжения работы программы, нажмите любую клавишу ... " << endl;
+                _getch();
                 system("CLS");
                 break;
             }
 
-
-
             break;
         }
     }
-
-
 }
